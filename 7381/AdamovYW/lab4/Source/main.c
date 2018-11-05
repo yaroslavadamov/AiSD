@@ -100,18 +100,36 @@ int treeRecovering(BinTree** binTree, char* traversal_KLP, char* traversal_LKP){
 
     // Проверка на отсутствие повторяющихся узлов в каждом обходе.
     for (int i = 0; i < str_len; i++){
-        for (int j = i; j < str_len; j++){
+        for (int j = i; j >= 0; j--){
             if (traversal_KLP[i] == traversal_KLP[j] && i != j){
-                if (!counter)
-                    printf("Ошибка: введены некорректные данные.\n");
-                printf("Узел '%c' встречается в обходе КЛП больше одного раза.\n", traversal_KLP[i]);
-                counter++;
+                break;
             }
+            if (j == 0){
+                for (int k = i; k < str_len; k++){
+                    if (traversal_KLP[i] == traversal_KLP[k] && i != k){
+                        if (!counter)
+                            printf("Ошибка: введены некорректные данные.\n");
+                        printf("Узел '%c' встречается в обходе КЛП больше одного раза.\n", traversal_KLP[i]);
+                        counter++;
+                        break;
+                    }
+                }
+            }
+        }
+        for (int j = i; j >= 0; j--){
             if (traversal_LKP[i] == traversal_LKP[j] && i != j){
-                if (!counter)
-                    printf("Ошибка: введены некорректные данные.\n");
-                printf("Узел '%c' встречается в обходе ЛКП больше одного раза.\n", traversal_LKP[i]);
-                counter++;
+                break;
+            }
+            if (j == 0){
+                for (int k = i; k < str_len; k++){
+                    if (traversal_LKP[i] == traversal_LKP[k] && i != k){
+                        if (!counter)
+                            printf("Ошибка: введены некорректные данные.\n");
+                        printf("Узел '%c' встречается в обходе ЛКП больше одного раза.\n", traversal_LKP[i]);
+                        counter++;
+                        break;
+                    }
+                }
             }
         }
     }
