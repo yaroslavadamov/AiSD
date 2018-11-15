@@ -45,3 +45,7 @@ echo "         fl421cdaqxz"
 echo "Test 12:"
 echo " "
 ./program < Tests/test12.txt
+
+echo "Test 13: abcdefx"
+echo "         abcfdex"
+./program < Tests/test13.txt
