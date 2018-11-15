@@ -17,6 +17,9 @@ enum Direction {
     RIGHT,
 };
 
+
+
+
 // Печать пробелов (для демонстрации работы алгоритма).
 // Количество пробелов = количеству знаков строки:
 // "Шаг N: ", где N - номер шага.
@@ -51,8 +54,6 @@ void printCurrentStep(char* traversal_KLP, char* traversal_LKP, int index_KLP, i
     }
     putchar('\n');
 }
-
-
 
 // Восстановление дерева из КЛП и ЛКП.
 // возвращает: 1 - возникли ошибки, 0 - строки валидны
@@ -207,6 +208,26 @@ int treeRecovering(BinTree** binTree, char* traversal_KLP, char* traversal_LKP){
                     direction = RIGHT;
                 }
             }
+            // Проверка на соответствие обходов одному дереву.
+            for (int i = 0; i < index_KLP; i++){
+                if (traversal_KLP[i] == traversal_LKP[index_LKP]){
+                    for (int j = index_LKP+1; j < str_len; j++){
+                        if (traversal_LKP[j] == traversal_KLP[index_KLP]){
+                            break;
+                        }
+                        for (int k = i+1; k < index_KLP; k++){
+                            if (traversal_KLP[k] == traversal_LKP[j]){
+                                printSpaces(counter);
+                                printf("Ошибка: обходы КЛП и ЛПК не соответствуют одному дереву.\n");
+                                printSpaces(counter);
+                                printf("Корень %c следует после корня %c в обоих обходах при обходе в сторону корня.\n\n", traversal_LKP[j], traversal_KLP[i]);
+                                return 1;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
         } else if (direction == RIGHT){
             printf("Шаг %d:\n", counter);
             printCurrentStep(traversal_KLP, traversal_LKP, index_KLP, index_LKP, counter);
@@ -234,6 +255,7 @@ int treeRecovering(BinTree** binTree, char* traversal_KLP, char* traversal_LKP){
    
     return 0;
 }
+
 
 
 // Вывод изображения дерева на экран.
@@ -340,6 +362,8 @@ void treeDrawing(BinTree* binTree){
         free(grid[i]);
     free(grid);
 }
+
+
 
 // Перечисление узлов дерева в порядке ЛПК.
 void print_traversal_LPK(BinTree* binTree){
