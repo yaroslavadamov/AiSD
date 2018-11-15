@@ -216,7 +216,7 @@ int treeRecovering(BinTree** binTree, char* traversal_KLP, char* traversal_LKP){
                         for (int k = i+1; k < index_KLP; k++){
                             if (traversal_KLP[k] == traversal_LKP[j]){
                                 printSpaces(counter);
-                                printf("Ошибка: обходы КЛП и ЛПК не соответствуют одному дереву.\n");
+                                printf("\nОшибка: обходы КЛП и ЛПК не соответствуют одному дереву.\n");
                                 printSpaces(counter);
                                 printf("Корень '%c' следует после корня '%c' в обоих обходах при обходе в сторону корня.\n\n", traversal_LKP[j], traversal_KLP[i]);
                                 return 1;
