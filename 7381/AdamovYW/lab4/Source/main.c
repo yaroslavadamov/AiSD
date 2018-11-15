@@ -18,8 +18,6 @@ enum Direction {
 };
 
 
-
-
 // Печать пробелов (для демонстрации работы алгоритма).
 // Количество пробелов = количеству знаков строки:
 // "Шаг N: ", где N - номер шага.
@@ -220,7 +218,7 @@ int treeRecovering(BinTree** binTree, char* traversal_KLP, char* traversal_LKP){
                                 printSpaces(counter);
                                 printf("Ошибка: обходы КЛП и ЛПК не соответствуют одному дереву.\n");
                                 printSpaces(counter);
-                                printf("Корень %c следует после корня %c в обоих обходах при обходе в сторону корня.\n\n", traversal_LKP[j], traversal_KLP[i]);
+                                printf("Корень '%c' следует после корня '%c' в обоих обходах при обходе в сторону корня.\n\n", traversal_LKP[j], traversal_KLP[i]);
                                 return 1;
                             }
                         }
