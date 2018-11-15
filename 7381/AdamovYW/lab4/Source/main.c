@@ -11,10 +11,11 @@
 // Максимальный размер строки.
 #define STR_LENGTH 501
 // Направления для восстановления дерева по КЛП И ЛКП.
-#define LEFT 1
-#define UP 2
-#define RIGHT 3
-
+enum Direction {
+    LEFT = 1,
+    UP,
+    RIGHT,
+};
 
 // Печать пробелов (для демонстрации работы алгоритма).
 // Количество пробелов = количеству знаков строки:
@@ -59,7 +60,7 @@ int treeRecovering(BinTree** binTree, char* traversal_KLP, char* traversal_LKP){
     int index_KLP = 0;
     int index_LKP = 0;
     int counter = 0; // счетчик для разных нужд
-    int direction; // направление обхода для восстановления дерева
+    enum Direction direction; // направление обхода для восстановления дерева
     int str_len; // длина строк обхода
     
     putchar('\n'); // Для красивого вывода :-)
