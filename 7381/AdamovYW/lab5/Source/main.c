@@ -75,13 +75,17 @@ BST * BST_create(char * bst_str){
         return NULL;
     }
 
-    printf("Алгоритм построения БДП:\n\n");
+    printf("\nАлгоритм построения БДП:\n\n");
     printf("Символ №1 - '%c':\n", bst_str[0]);
     printf("   '%c' - корень дерева.\n", bst_str[0]);
     BST * tree = initBST(bst_str[0]);
 
     for (int i = 1; i < strlen(bst_str); i++){
-        printf("Символ №%d - '%c':\n", i+1, bst_str[i]);
+        printf("\nСимвол №%d - '%c':\n", i+1, bst_str[i]);
+        if (i > 1){
+            printf("Текущее дерево:\n");
+            BST_draw(tree);
+        }
         int counter = 1;
         BST * current_tree = tree;
         while(1){
@@ -337,7 +341,7 @@ int main(){
 
     tree = BST_create(bst_str);
 
-    printf("\nИзображение дерева:\n\n");
+    printf("\nДерево построено.\nИзображение дерева:\n\n");
     BST_draw(tree);
 
     printf("\nЭлементы БДП в порядке возрастания: ");
