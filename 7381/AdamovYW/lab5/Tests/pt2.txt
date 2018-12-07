@@ -1,2 +1,2 @@
-test2.txt
+Tests/test2.txt
 
