@@ -102,7 +102,7 @@ BST * BST_create(char * bst_str){
                     break;
                 } else {
                     print_spaces(counter);
-                    printf("'%c' - левое поддерево узла %c.\n", leftBST(tree)->key, current_tree->key);
+                    printf("'%c' - левое поддерево узла %c.\n", leftBST(current_tree)->key, current_tree->key);
                     counter ++;
                     current_tree = current_tree->left;
                 }
@@ -118,7 +118,7 @@ BST * BST_create(char * bst_str){
                     break;
                 } else {
                     print_spaces(counter);
-                    printf("'%c' - правое поддерево узла %c.\n", rightBST(tree)->key, current_tree->key);
+                    printf("'%c' - правое поддерево узла %c.\n", rightBST(current_tree)->key, current_tree->key);
                     counter ++;
                     current_tree = current_tree->right;
                 }
