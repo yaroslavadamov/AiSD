@@ -151,25 +151,27 @@ void BST_draw(BST* tree, int print_in_file_bool){
     // Построение дерева по сетке.
     for (int i = 0; i < deep_level; i++){
         for (int j = 0; j < gridWidth; j++){
-            if (grid[i][j] == 0){
+            if (grid[i][j] == 0){ // Пустая область
                 printf("   ");
                 if (print_in_file_bool){
                     fprintf(fileAnswers, "   ");
                 }
             }
-            if (grid[i][j] == LEFT){
+            if (grid[i][j] == LEFT){ // Стрелка влево
                 printf("---");
                 if (print_in_file_bool){
                     fprintf(fileAnswers, "---");
                 }
             }
-            if (grid[i][j] == RIGHT){
+            if (grid[i][j] == RIGHT){ // Стрелка вправо
+                // Конец стрелки.
                 if (grid[i+1][j] != 0 && grid[i+1][j] != LEFT && grid[i+1][j] != RIGHT){
                     printf("-  ");
                     if (print_in_file_bool){
                         fprintf(fileAnswers, "-  ");
                     }
                 }
+                // Середина или начало стрелки.
                 else {
                     printf("---");
                     if (print_in_file_bool){
@@ -177,14 +179,14 @@ void BST_draw(BST* tree, int print_in_file_bool){
                     }
                 }
             }
-            if (grid[i][j] != 0 && grid[i][j] != LEFT && grid[i][j] != RIGHT){
-                if (j < gridWidth-1 && grid[i][j+1] == RIGHT){
+            if (grid[i][j] != 0 && grid[i][j] != LEFT && grid[i][j] != RIGHT){ // Узел
+                if (j < gridWidth-1 && grid[i][j+1] == RIGHT){ // Если есть правое поддерево
                     printf("%c--", grid[i][j]);
                     if (print_in_file_bool){
                         fprintf(fileAnswers, "%c--", grid[i][j]);
                     }
                 }
-                else {
+                else { // Если нет правого поддерева
                     printf("%c  ", grid[i][j]);
                     if (print_in_file_bool){
                         fprintf(fileAnswers, "%c  ", grid[i][j]);
@@ -197,19 +199,21 @@ void BST_draw(BST* tree, int print_in_file_bool){
             fputc('\n', fileAnswers);
         }
         for (int j = 0; j < gridWidth; j++){
-            if (grid[i][j] == 0 || (grid[i][j] != LEFT && grid[i][j] != RIGHT)){
+            if (grid[i][j] == 0 || (grid[i][j] != LEFT && grid[i][j] != RIGHT)){ // Пустая область
                 printf("   ");
                 if (print_in_file_bool){
                     fprintf(fileAnswers, "   ");
                 }
             }
-            if (grid[i][j] == LEFT || grid[i][j] == RIGHT){
+            if (grid[i][j] == LEFT || grid[i][j] == RIGHT){ // Стрелки
+                // Конец стрелки.
                 if (grid[i+1][j] != 0 && grid[i+1][j] != LEFT && grid[i+1][j] != RIGHT){
                     printf("|  ");
                     if (print_in_file_bool){
                         fprintf(fileAnswers, "|  ");
                     }
                 }
+                // Середина или начало стрелки.
                 else {
                     printf("   ");
                     if (print_in_file_bool){
@@ -252,6 +256,7 @@ BST * BST_create(char * bst_str){
 
     for (int i = 1; i < strlen(bst_str); i++){
         printf("\nСимвол №%d - '%c':\n", i+1, bst_str[i]);
+        // Вывод изображения дерева
         if (i > 1){
             printf("Текущее дерево:\n");
             BST_draw(tree, 0);
@@ -259,33 +264,33 @@ BST * BST_create(char * bst_str){
         int counter = 1;
         BST * current_tree = tree;
         while(1){
-            if (bst_str[i] < current_tree->key){
+            if (bst_str[i] < current_tree->key){ // Переход к левому поддереву
                 print_spaces(counter);
                 printf("'%c' < '%c'\n", bst_str[i], current_tree->key);
-                if (current_tree->left == NULL){
+                if (current_tree->left == NULL){ // Оно пусто - добавляю элемент.
                     print_spaces(counter);
                     printf("Левое поддерево узла '%c' - пусто.\n", current_tree->key);
                     print_spaces(counter);
                     printf("'%c' - левое поддерево '%c'.\n", bst_str[i], current_tree->key);
                     current_tree->left = initBST(bst_str[i]);
                     break;
-                } else {
+                } else { // Иду дальше вниз по дереву
                     print_spaces(counter);
                     printf("'%c' - левое поддерево узла %c.\n", leftBST(current_tree)->key, current_tree->key);
                     counter ++;
                     current_tree = current_tree->left;
                 }
-            } else {
+            } else { // Переход к правому поддереву
                 print_spaces(counter);
                 printf("'%c' > '%c'\n", bst_str[i], current_tree->key);
-                if (current_tree->right == NULL){
+                if (current_tree->right == NULL){ // Оно пусто - добавляю элемент.
                     print_spaces(counter);
                     printf("Правое поддерево узла '%c' - пусто.\n", current_tree->key);
                     print_spaces(counter);
                     printf("'%c' - правое поддерево '%c'.\n", bst_str[i], current_tree->key);
                     current_tree->right = initBST(bst_str[i]);
                     break;
-                } else {
+                } else { // Иду дальше вниз по дереву
                     print_spaces(counter);
                     printf("'%c' - правое поддерево узла %c.\n", rightBST(current_tree)->key, current_tree->key);
                     counter ++;
@@ -306,33 +311,33 @@ void add_element_in_BST(BST* tree, char key){
     BST * current_tree = tree;
     int counter = 1;
     while(1){
-        if (key < current_tree->key){
+        if (key < current_tree->key){ // Переход к левому поддереву
             print_spaces(counter);
             printf("'%c' < '%c'\n", key, current_tree->key);
-            if (current_tree->left == NULL){
+            if (current_tree->left == NULL){ // Оно пусто - добавляю элемент.
                 print_spaces(counter);
                 printf("Левое поддерево узла '%c' - пусто.\n", current_tree->key);
                 print_spaces(counter);
                 printf("'%c' - левое поддерево '%c'.\n", key, current_tree->key);
                 current_tree->left = initBST(key);
                 break;
-            } else {
+            } else { // Иду дальше вниз по дереву
                 print_spaces(counter);
                 printf("'%c' - левое поддерево узла %c.\n", leftBST(current_tree)->key, current_tree->key);
                 counter ++;
                 current_tree = current_tree->left;
             }
-        } else {
+        } else { // Переход к правому поддереву
             print_spaces(counter);
             printf("'%c' > '%c'\n", key, current_tree->key);
-            if (current_tree->right == NULL){
+            if (current_tree->right == NULL){ // Оно пусто - добавляю элемент.
                 print_spaces(counter);
                 printf("Правое поддерево узла '%c' - пусто.\n", current_tree->key);
                 print_spaces(counter);
                 printf("'%c' - правое поддерево '%c'.\n", key, current_tree->key);
                 current_tree->right = initBST(key);
                 break;
-            } else {
+            } else { // Иду дальше вниз по дереву
                 print_spaces(counter);
                 printf("'%c' - правое поддерево узла %c.\n", rightBST(current_tree)->key, current_tree->key);
                 counter ++;
@@ -352,9 +357,10 @@ BST * remove_element_in_BST(BST* tree, char key){
 
     // Если нужно удалить корень.
     if (tree->key == key){
-        if (leftBST(tree) == NULL && rightBST(tree) == NULL){
+        if (leftBST(tree) == NULL && rightBST(tree) == NULL){ // Дерево состоит из одного узла.
             free(tree);
             return NULL;
+            // Если есть только одно поддерево.
         } else if ((leftBST(tree) != NULL && rightBST(tree) == NULL) || (leftBST(tree) == NULL && rightBST(tree) != NULL)){
             if (leftBST(tree) != NULL){
                 printf("    Узел '%c' имеет только левое поддерево.\n", key);
@@ -369,8 +375,9 @@ BST * remove_element_in_BST(BST* tree, char key){
                 free(tree);
                 return childTree;
             }
-        } else {
+        } else { // Если есть два поддерева.
             printf("    Узел '%c' имеет два поддерева.\n", key);
+            parentTree = tree;
             childTree = rightBST(tree);
             while (leftBST(childTree) != NULL){
                 parentTree = childTree;
@@ -380,17 +387,9 @@ BST * remove_element_in_BST(BST* tree, char key){
             printf("    Узел '%c' занимает место узла '%c'.\n", childTree->key, key);
             tree->key = childTree->key;
             if (childTree == leftBST(parentTree)){
-                if (rightBST(childTree) != NULL){
-                    parentTree->left = rightBST(childTree);
-                } else {
-                    parentTree->left = NULL;
-                }
+                parentTree->left = rightBST(childTree);
             } else {
-                if (rightBST(childTree) != NULL){
-                    parentTree->left = rightBST(childTree);
-                } else {
-                    parentTree->right = NULL;
-                }
+                parentTree->right = rightBST(childTree);
             }
             free(childTree);
             return tree;
@@ -409,7 +408,7 @@ BST * remove_element_in_BST(BST* tree, char key){
             childTree = rightBST(childTree);
         }
     }
-    if (leftBST(childTree) == NULL && rightBST(childTree) == NULL){
+    if (leftBST(childTree) == NULL && rightBST(childTree) == NULL){ // Если нету поддеревьев.
         printf("    Узел '%c' не имеет поддеревьев.\n", key);
         printf("    Удаление узла '%c'.\n", key);
         if (childTree == leftBST(parentTree)){
@@ -418,6 +417,7 @@ BST * remove_element_in_BST(BST* tree, char key){
             parentTree->right = NULL;
         }
         free(childTree);
+        // Если есть одно поддерево.
     } else if ((leftBST(childTree) != NULL && rightBST(childTree) == NULL) || (leftBST(childTree) == NULL && rightBST(childTree) != NULL)){
         if (leftBST(childTree) != NULL){
             printf("    Узел '%c' имеет только левое поддерево.\n", key);
@@ -440,7 +440,7 @@ BST * remove_element_in_BST(BST* tree, char key){
             }
         }
         free(childTree);
-    } else {
+    } else { // Если есть два поддерева.
         printf("    Узел '%c' имеет два поддерева.\n", childTree->key);
         BST* deletedRoot = childTree;
         parentTree = deletedRoot;
@@ -453,17 +453,9 @@ BST * remove_element_in_BST(BST* tree, char key){
         printf("    Узел '%c' занимает место узла '%c'.\n", childTree->key, deletedRoot->key);
         deletedRoot->key = childTree->key;
         if (childTree == leftBST(parentTree)){
-            if (rightBST(childTree) != NULL){
-                parentTree->left = rightBST(childTree);
-            } else {
-                parentTree->left = NULL;
-            }
+            parentTree->left = rightBST(childTree);
         } else {
-            if (rightBST(childTree) != NULL){
-                parentTree->right = rightBST(childTree);
-            } else {
-                parentTree->right = NULL;
-            }
+            parentTree->right = rightBST(childTree);
         }
         free(childTree);
     }
@@ -512,6 +504,7 @@ int main(){
     
     
     // Ввод количества генерируемых заданий и настройка сложности.
+    // Ввод Количества заданий.
     printf("\nВведите количество заданий, которое необходимо сгенерировать (не больше %d): ", TASK_COUNT_MAX);
     while(1){
         fgets(str, STR_LEN, stdin);
@@ -540,7 +533,7 @@ int main(){
         printf("\nПрограмма завершила работу.\n");
         return 0;
     }
-    
+    // Ввод минимального размера дерева.
     printf("\nВведите минимальное количество элементов в начальном дереве (не меньше %d, но не больше %d): ", TS_MIN, TS_MAX);
     while(1){
         fgets(str, STR_LEN, stdin);
@@ -565,7 +558,7 @@ int main(){
             }
         }
     }
-    
+    // Ввод максимального размера дерева.
     printf("\nВведите максимальное количество элементов в начальном дереве (не меньше %d, но не больше %d): ", tree_size_min, TS_MAX);
     while(1){
         fgets(str, STR_LEN, stdin);
@@ -590,7 +583,7 @@ int main(){
             }
         }
     }
-    
+    // Ввод минимального количества операцйи над деревом.
     printf("\nВведите минимальное количество операций над деревом - вставка и исключение (не меньше %d, но не больше %d): ", OC_MIN, OC_MAX);
     while(1){
         fgets(str, STR_LEN, stdin);
@@ -615,7 +608,7 @@ int main(){
             }
         }
     }
-    
+    // Ввод максимального количества операцйи над деревом.
     printf("\nВведите максимальное количество операций над деревом - вставка и исключение (не меньше %d, но не больше %d): ", operation_count_min, OC_MAX);
     while(1){
         fgets(str, STR_LEN, stdin);
@@ -642,9 +635,9 @@ int main(){
     }
     
     
-    
     // Генерация заданий.
     printf("\nГенерация заданий:\n\n");
+    // Выделение памяти.
     tasks = (char**)malloc(task_count * sizeof(char*));
     char ** minimalized_tasks = (char**)malloc(task_count * sizeof(char*));
     for (int i = 0; i < task_count; i++){
@@ -735,6 +728,7 @@ int main(){
                     break;
                 }
             }
+            // Если аналогичное задание уже существует, то сгенерировать новое.
             if (counter == 0){
                 break;
             }
